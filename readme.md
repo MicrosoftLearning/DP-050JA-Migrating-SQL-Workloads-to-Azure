@@ -1,35 +1,26 @@
-# INF99X: Sample Course
+﻿# DP-050-移行-SQL-Workloads から Azure へ
 
-- **[Download Latest Student Handbook and AllFiles Content](../../releases/latest)**
-- **Are you a MCT?** - Have a look at our [GitHub User Guide for MCTs](https://microsoftlearning.github.io/MCT-User-Guide/)
-- **Need to manually build the lab instructions?** - Instructions are available in the [MicrosoftLearning/Docker-Build](https://github.com/MicrosoftLearning/Docker-Build) repository
+このコースでは、まず、受講者は、成功するデータ モダナイゼイション プロジェクトを支援するために必要な準備手順と、そのプロジェクトのさまざまなステージで支援するために役立つツールについて探索します。その後、SQL workloads を Azure で実行されるさまざまな SQL Services に移行するさまざまな方法を探索します。
 
-## What are we doing?
+各モジュールのラボの目的の概要を次に示します。
 
-- To support this course, we will need to make frequent updates to the course content to keep it current with the Azure services used in the course.  We are publishing the lab instructions and lab files on GitHub to allow for open contributions between the course authors and MCTs to keep the content current with changes in the Azure platform.
+## ラボ 1 - データプラットフォームのモダナイゼイションの概要
 
-- We hope that this brings a sense of collaboration to the labs like we've never had before - when Azure changes and you find it first during a live delivery, go ahead and make an enhancement right in the lab source.  Help your fellow MCTs.
+受講者は、Data Platform のモダナイゼイション、および、モダナイゼイション プロジェクトを高いレベルで組織が実施する理由とその方法について理解したことを、このモジュールで得た情報を使用して実際に説明します。Azure への移行のコストを決定する方法を実際に説明します。また、作業中の環境に関する情報も収集します。受講者は、特定のシナリオに使用する必要があるデータ プラットフォームのモダナイゼイション戦略を最終的に決定します。
 
-## How should I use these files relative to the released MOC files?
+## ラボ 2 - データ移行に適したツールの選択
 
-- The instructor handbook and PowerPoints are still going to be your primary source for teaching the course content.
+受講者は、所定のデータ プラットフォームのモダナイゼイション ステージで 2 つのツールを使用して、自動化された方法で環境の検出を実行します。また、移行前の互換性の問題を特定し、オンプレミス サーバーの移行を実行する前に問題に対処する方法に関する計画を定義します。最後に、対象バージョンの Azure SQL Database でワークロードがどのように実行されるかを評価します。
 
-- These files on GitHub are designed to be used in conjunction with the student handbook, but are in GitHub as a central repository so MCTs and course authors can have a shared source for the latest lab files.
+## ラボ 3 - SQL Workloads を Azure Virtual Machines に移行する
 
-- It will be recommended that for every delivery, trainers check GitHub for any changes that may have been made to support the latest Azure services, and get the latest files for their delivery.
+受講者は、SQL Server VM の Azure 上への プロビジョニングを含む、データ移行用の環境を構成します。
+次に、Data Migration Assistant（DMA）を使用して SQL Server 2008 R2 環境からデータベースを転送することにより、Azure Virtual MachinesのSQL Server へのデータ移行を実行します。
 
-## What about changes to the student handbook?
+## ラボ 4 - SQL Workloads を  SQL Database に移行する
 
-- We will review the student handbook on a quarterly basis and update through the normal MOC release channels as needed.
+受講者は、Azure Database Migration Assistant（DMA）を使用して、オンプレミスの SQL Server から Azure SQL Database へのオフライン移行を実行します。これを行う前に、受講者は、移行先の Azure で適切な SQL Server インスタンス オプションを決定します。移行ツールを使用して Azure SQL Database にデータを読み込んで移動することで、移行を確定します。
 
-## How do I contribute?
+## ラボ 5 - SQL Workloads を SQL Database Managed Instance に移行する
 
-- Any MCT can submit a pull request to the code or content in the GitHub repro, Microsoft and the course author will triage and include content and lab code changes as needed.
-
-- You can submit bugs, changes, improvement and ideas.  Find a new Azure feature before we have?  Submit a new demo!
-
-## Notes
-
-### Classroom Materials
-
-It is strongly recommended that MCTs and Partners access these materials and in turn, provide them separately to students.  Pointing students directly to GitHub to access Lab steps as part of an ongoing class will require them to access yet another UI as part of the course, contributing to a confusing experience for the student. An explanation to the student regarding why they are receiving separate Lab instructions can highlight the nature of an always-changing cloud-based interface and platform. Microsoft Learning support for accessing files on GitHub and support for navigation of the GitHub site is limited to MCTs teaching this course only.
+受講者は、最初に、オンプレミスの SQL Server から  SQL Database Managed Instance への移行に使用する移行プロセスを評価します。次に、Azure Database Migration Service を使用してオンライン移行を実行します。また、データベースにアクセスするアプリケーションのアプリケーション互換性を確認する前に、データを移行してマネージ インスタンスに読み込みます。このラボは、シミュレート環境です。
