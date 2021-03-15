@@ -1,299 +1,319 @@
-﻿---
-lab:
-    title: 'ラボ 3 – SQL Workloads を Azure Virtual Machine 内の SQL Server に移行する'
-    module: 'モジュール 3: SQL ワークロードを Azure Virtual Machines に移行する'
----
-
-# DP-050 – SQL Workloads から Azure への移行
+﻿# DP 050 – SQL Workloads から Azure への移行
 
 ## ラボ 3 – SQL Workloads を Azure Virtual Machine 内の SQL Server に移行する
 
-**予想時間：** 60 分
-**前提条件：** このラボでは、実行する前提条件の手順はありません。
-**ラボ ファイル：** このラボにはラボ ファイルがありません
+**推定時間:** 60 分
+
+**前提条件:** このラボでは、実行する前提条件の手順はありません。
+
+**ラボ ファイル:** このラボにはラボ ファイルがありません。
 
 ## ラボの概要
 
-受講者は、最初に、オンプレミスの SQL Server 2008 R2 インスタンスから仮想マシンで実行されている SQL Server 2017 への移行に使用する移行プロセスを評価します。次に、Data Migration Assistant を使用して移行を実行し、Data Migration Assistant を使用してデータベースを移動します。  最後に、移行の成功を評価します。
+受講者は、最初に、オンプレミスの SQL Server 2008 R2 インスタンスから仮想マシンで実行されている SQL Server 2017 への移行に使用する移行プロセスを評価します。次に、移行を実行し、Data Migration Assistant を使用してデータベースを移動します。最後に、移行の成功を評価します。
 
 ## ラボの目的
 
-このラボの最後には、次ができるようになります。
+この課題を完了すると、次のことができるようになります。
 
-1. Azure で新しい SQL Server 2017 仮想マシンを作成する
-2. Azure ストレージアカウント リソースと Fileshare の作成
-3. SQL Server 2008 R2 データベースを Azure VM の SQL Server に移行する
+- Windows Server 2017 を実行する仮想マシンを Azure にデプロイする。
+- Azure ストレージ アカウントおよびファイル共有を作成する。
+- SQL Server 2008 R2 データベースを Azure VM の SQL Server に移行する。
 
 ## シナリオ
 
 あなたは、Adventureworks 社の上級データベース管理リーダーであり、データ モダナイゼイション プロジェクトを実行する準備をしています。一連のデータベースを、Azure 仮想マシン内の SQL Server に移行するために必要な環境を準備し、Data Migration Assistant を使用してテスト移行を実行することになります。
 
-## 演習 1：Azure で新しい SQL Server 2017 仮想マシンを作成する
+## 演習 1: Windows Server 2017 を実行する仮想マシンを Azure にデプロイする。
 
 この演習では、Azure Portal を使用して、Azure 上に新しい仮想マシンを作成します。
 
-**予想時間：** 20 分間
+**推定時間:** 20 分
 
-この演習の主なタスクは、次のとおりです。
+このエクササイズのタスクは次のとおりです。
 
-1.  Azure Portal 内に、新しい仮想マシンを作成する
+1. Azure Portal 内に、新しい仮想マシンを作成する
 
-### タスク 1：Provision a SQL Server 2017 仮想マシンのプロビジョニング
+### Provision a SQL Server 2017 仮想マシンのプロビジョニング
 
-**注:** ホスト型ラボ環境でこのラボを実行している場合は、プロビジョニングされたラボ環境内で次の手順を実行します。
+> [!注]
+> ホスト型ラボ環境でこのラボを実行している場合は、そのラボ環境内で次の手順を実行します。
 
-1. [Azure ポータル](https://portal.azure.com) で、 **Create a resource** を選択し、Marketplace 検索ボックスに **SQL Server 2017 on Windows 2016** と入力します。
-1. **Free SQL Server License: SQL Server 2017 Developer on Windows Server 2016**を選択します。**select a software plan** ドロップダウンで。
-1. 事前設定された構成で開始を選択します。
-1. **Select a workload environment** で **Dev/Test** を選択します。
-1. **Select a workload type** では、デフォルトの **General purpose (D-series)** のままにします。   
-1. **Continue to Create a VM** を選択します。 
-1. プロジェクトの詳細ウィンドウで、 **Create new** を選択して新しいリソース グループを作成します。 
-1. リソースグループ名として **DP-050-Training** を指定します。 
-1. 次の詳細を指定して、インスタンスの詳細を指定します。
+1. [Azure portal](https://portal.azure.com) で、「**リソースの作成**」 を選択します。
+1. 「マーケットプレイス」 検索ボックスに、「**SQL Server 2017 on Windows Server 2019**」と入力し、Enter キーを押します。「**すべての結果を表示**」 で、「**SQL Server 2017 on Windows Server 2019**」を選択します。
+1. 「**プランの選択**」 ドロップダウンリストで、「**無料の SQL Server ライセンス**」 を選択します。「**SQL Server 2017 Developer on Windows Server 2019**」 をクリックし、「**作成**」を選択します。
+1. 「**仮想マシンの作成**」 ウィザードの 「**基本**」 ページで、次の値を入力し、「**次へ**」 を選択します。**ディスク \>**:
 
-    1. 仮想マシン名： **sql2017vm**
-    1. リージョン: **select a region closest to your physical location**
-    1. 画像: **無料 SQL サーバー ライセンス：SQL Server 2017 Developer on Windows Server 2016**.
-    1. ユーザー名：**sqladmin**
-    1. パスワード：**Pa55w.rd.123456789**
-    1. パスワードを確定：**Pa55w.rd.123456789**
+    | プロパティ | 値 |
+    | --- | --- |
+    | サブスクリプション | サブスクリプションを選択する |
+    | リソース グループ | **DP-050-Training** という名前で新しいリソース グループを作成します。 |
+    | 仮想マシン名 | sql2017vm |
+    | リージョン | 近くのリージョンを選択します |
+    | 可用性オプション | インフラストラクチャの冗長性は必要ありません |
+    | イメージ | 無料の SQL Server ライセンス: Windows Server 2019 - Gen1 の SQL Server 2017 Developer |
+    | Azure Spot インスタンス | いいえ |
+    | サイズ | Standard_D2_v2 |
+    | ユーザー名 | sqladmin |
+    | パスワード | Pa55w.rdPa55w.rd |
+    | パスワードの確認 | Pa55w.rdPa55w.rd |
+    | パブリック受信ポート | 選択したポートを許可する |
+    | 受信ポートの選択 | RDP (3389) |
+    | 既存の Windows ライセンスを使用しますか?  | いいえ |
+    
+1. **ディスク** ページで、既定の設定値を受け入れてから、**次へ:** を選択します。**Networking \>**。
+1. **ネットワーク** ページで、既定の設定値を受け入れてから、**次へ:** を選択します。**Management \>**。
+1. 「**管理**」 ページの 「**ブート診断**」 リストで、「**無効**」 を選択し、「**次へ**」 を選択します。**Advanced \>**。
+1. **詳細** ページで、既定の設定値を受け入れてから、**次へ:** を選択します。**SQL Server の設定 \>**。
+1. 「**SQL Server の設定**」 ページで、これらの設定値を入力 し、「**レビュー + 作成**」 を選択します。
 
-    **ファイアウォールの設定：**
+    | プロパティ | 値 |
+    | --- | --- |
+    | SQL 接続 | パブリック（インターネット） |
+    | ポート | 1433 |
+    | SQL 認証 | 「有効化」 |
+    | 「ログイン名」 | sqladmin |
+    | パスワード | Pa55w.rdPa55w.rd |
+    | Azure Key Vault の統合 | Disable |
 
-      パブリック受信ポート： 選択したポートを許可するを選択する
+1. 「**レビュー + 作成**」 ページで、「**作成**」 を選択します。
 
-      b. 着信ポートの選択ドロップダウンから RDP を選択します。
+    > [!注]
+    > このプロセスの完了には 10分くらいかる場合があります。
 
-10. **Next:** を選択する **ディスク**
+1. デプロイが完了したら、**「リソースに移動」** を選択します。
+1. お使いの VM の **パブリック IP アドレス** を見つけて記録します。このアドレスは後で必要になります。
+1. 「**DNS 名**」 の隣で、「**構成**」 を選択します。
+1. 「**DNS 名ラベル（オプション）**」 テキストボックスに、一意の DNS 名を入力して記録します。
 
-    ディスクの設定を確認し、変更なしで受け入れます。
+    例: sql2017vmxxxx.centralus.cloudapp.azure.com
 
-1. **Next:** を選択する **ネットワーキング**
-    ネットワーク設定を確認し、変更なしで受け入れます。
-1. **Next:** を選択します **管理**
+1. **「保存」** を選択します。
 
-    管理設定を確認し、ブート診断を変更します。
-
-    a. ブート診断を **Off** に設定する
-
-13. **Next:** を選択する **詳細**
-1. 詳細タブをスキップし、**SQL Server settings** を選択する
-
-    SQL Server の設定タブで、次の情報が表示されます。
-
-    1. SQL 接続：**select Public (Internet)**
-    1. SQL 認証：**編集を有効にするを選択する**
-    1. パスワードボックスに **Pa55w.rd.123456789** と入力します。 
-
-15. **Review + create** を選択する
-
-    Review + create タブの設定を確認する
-
-    a. **Create** を選択して、仮想マシン (VM) の作成を開始します。 
-
-**注意：** このプロセスの完了には 10分くらいかる場合があります
-
-16.	VM の作成が完了したら、仮想マシン ブレードを開きます。
-17.	 作成した **sql2017vm** を選択します。 
-18.	パブリック IP アドレスを見つけて、将来の接続のために書き留める
-19.	 **Configure DNS name** を選択する
-20.	一意に識別可能な DNS 名を入力し、指定した完全な DNS 名を書き留めます。
-
-    たとえば: SQL2017VMxxxx.centralus.cloudapp.azure.com
-
-21.	[保存] をクリックします。
-
-``` shell
 結果: この演習を完了すると、Azure Virtual Machine で SQL Server 2017 インスタンスが実行されます。
-```
 
-## 演習 2: Azure ストレージ アカウントと Fileshare の作成
+## 演習 2: Azure ストレージ アカウントおよびファイル共有を作成する
 
-この演習では、Azure Portal を使用して、Azure 上に新しい仮想マシンを作成します。
+この演習では、Azure Portal を使用して、Azure 上に新しいストレージ アカウントを作成します。
 
-**予想時間：** 15 分
+**推定時間:** 約 15 分
 
-この演習の主なタスクは、次のとおりです。
+この演習の主なタスクは次のとおりです。
 
-1. Azure Storage アカウントを作成する
-2. Azure Storage アカウントでファイル共有を作成する
+1. Azure ストレージ アカウントを作成します。
+1. セキュリティで Azure ストレージ アカウントにファイル共有を作成します。
 
-### タスク 1：Azure Storage アカウントを作成する
+### Azure Storage アカウントを作成する
 
-1. [Azure portal](https://portal.azure.com) で、**Storage Accounts** ブレードを選択します。
-2. **Add**を選択します。
-3. ストレージアカウントの作成ウィンドウで、次の情報を入力します。
-    1.リソース グループ:  **Existing** を選択する
-    1. 前の演習で作成した **DP-050-Training** リソース グループを選択する
-    1. ストレージ アカウント名： **dp050storagexxxx** (xxxx) は乱数の文字
-    1. 場所：前の演習で仮想マシンを作成した場所に最も近い場所を選択します。
-    1. 他のデフォルト設定はそのままにしておきます。
-4. **Review + create** をクリックして、詳細セクションとタグセクションをスキップする
-5. **Create** を選択する
+1. [Azure portal](https://portal.azure.com) で、「**リソースの作成**」 を選択します。
+1. 「**Marketplace を検索**」 テキスト ボックスに「**ストレージ アカウント**」と入力し、**Enter** キーを押します。
+1. 「**すべての結果を表示**」 で 「**ストレージ アカウント**」 を選択し、「**作成**」 を選択します。
+1. **ストレージ アカウントの作成**ウィザードの 「**基本**」 ページで、次の値を入力します。
 
-    **注意：**  この展開には数分かかる場合があります。
+    | プロパティ | 値 |
+    | --- | --- |
+    | サブスクリプション | サブスクリプションを選択します |
+    | リソース グループ | DP-050 トレーニング |
+    | ストレージ アカウント名 | **dp050storagexxxx** (xxxx) は乱数の文字 |
+    | 場所 | 仮想マシンに使用したもののと同じ場所を選択する |
+    | パフォーマンス | Standard |
+    | アカウントの種類 | StorageV2 (汎用 v2) |
+    | レプリケーション | ローカル冗長ストレージ (LRS) |
 
-6. 完了時に、 **go To Resource** をクリックする
+    > [!注]
+    > 使用するストレージ アカウント名をしっかり書き留めておきます。この名前は、ラボにて後で使用します。
 
-### タスク 2：Azure FileShare を作成する
+1. 「**確認および作成**」 を選択します。
+1. 「**レビュー + 作成**」 ページで、「**作成**」 を選択します。
 
-1. ストレージ アカウントページで、 **Files** を選択する
-2. ファイルページ で、 **+ File share** を選択する
-3. 次の情報を入力してください。
-    a. 名前： **backupshare**
-    クォータ： **200 Gib**
-4. **Create** を選択する
-5. ファイル共有の作成後、作成されたファイル共有の右側で…を選択する
-6. ドロップダウン リストから **Connect** を選択する
-7. 接続ブレードで、ドライブ文字 **U:** を選択する
-8. Alternatively の下にリストされているテキストから、接続コマンドの構文をコピーします。キーがスラッシュで始まらない場合は、代わりにこのコマンドを実行します。
+    > [!注]
+    > この展開には数分かかる場合があります。
 
-テキストは、次のコマンド構文のようになります。
+1. VM デプロイが完了したら、**「リソースに移動」** を選択します。
+1. 「**設定**」 の 「**アクセス キー**」 を選択します。
+1. 「**アクセス キー**」 ページで、「**キーを表示する**」 を選択し、**key1** の下の 「**キー**」 テキストボックスの内容を書き留めます。
 
-```shell
-cmdkey /add:dp050storagexxxx.file.core.windows.net /user:Azure\dp050storagexxxx /pass:Hcty8OXn7jcON/ePk3OvswD7eRusfWWAw9lakhX9P9m4MnuqZEt2I8pDYAEiyAZJx4Na39UZEwAyH8PlnVa36Q==
+### ファイル共有を作成する
 
-```
+1. ストレージアカウントページの左側のメニューの 「**ファイル サービス**」 で、「**ファイル共有**」 を選択します。
+1. 「**ファイル共有**」セクションで、「**＋ファイル共有**」を選択します。
+1. 「**新しいファイル共有**」 ページで、次の値を入力します。
 
-9. **Notepad** を開く
-10. 上記のコマンドの内容を貼り付て、ファイルを **Labfiles** に **MapNetworkdrive.txt** として保存する
-11. **Notepad** 閉じる 
-12.	これで、Azure ポータル Notepad を閉じることができます。
+    | プロパティ | 値 |
+    | --- | --- |
+    | 名前 | backupshare |
+    | クォータ | 200 GiB |
 
-```shell
-結果: これで、SQL Server データベースのバックアップ ファイルの共有アクセス場所として使用される Azure Fileshare が正常に作成されました。次の演習では、共有場所にアクセスできるように SQL インスタンスを構成します。
-```
+1. **「作成」** を選択します。
 
-## 演習 3: SQL Server インスタンスの接続を作成して、Azure Fileshare に接続します
+結果: これで、SQL Server データベースのバックアップ ファイルの共有アクセス場所として使用される Azure ファイル シェア が正常に作成されました。次の演習では、共有場所にアクセスするために SQL インスタンスを構成します。
 
-この演習では、Azure Fileshare にアクセスできるように SQL Server 環境を構成します。
-**予想時間：** 10 分
+## 演習 3: SQL Server インスタンスの接続を作成して、Azure ファイル共有に接続します
 
-この演習の主なタスクは、次のとおりです。
+この演習では、オンプレミスサーバーと新しい Azure VM の両方で Azure ファイル共有にアクセスするように SQL Server 環境を構成します。
+
+**推定時間:** 約 10 分
+
+この演習の主なタスクは次のとおりです。
 
 1. ネットワーク ドライブをマッピングして SQL 管理スタジオからファイル共有を登録する
-2. Azure Storage アカウントでファイル共有を作成する
+1. ファイル共有に接続する。
 
-### タスク 1：SQL Management Studio にサーバー インスタンスを登録する
+### SQL Management Studio にサーバー インスタンスを登録する
 
-1. SQL Server 2008 R2 ラボ環境で、SQL Management Studio を起動する
-2. ローカル インスタンスに接続する (LONDON)
-3. SQL Management Studio Object Explorer で、 を選択する **Connect | Database Engine** を使用し、 **Connect to Server** ダイアログ ボックスに次の情報を入力します。
+1. 教室環境で実行されている **LON-DEV-01** 仮想マシンにサインインします。ユーザー名は **administrator**、パスワードは **Pa55w.rd** です。
+1. **SQL Management Studio** を起動してから、ローカル インスタンス（LONDON）に接続します。
+1. SQL Management Studio Object Explorer で、「**接続**」を選択してから、「**データベース エンジン**」を選択します。
+1. 「**サーバーに接続する**」 ダイアログで、次の値を入力し、「**接続**」 を選択します。
 
-    Servername：'SQL 2017 VM の完全修飾ドメイン名’
-    たとえば、sql2017vmxxxx.centralus.cloudapp.azure.com
-4. SQL Server 認証を選択し、次のユーザーとパスワードを指定する
-    ログイン: **sqladmin**
-    パスワード： **Pa55w.rd.123456789**
+    | プロパティ | 値 |
+    | --- | --- |
+    | サーバー名 | Azure の SQL 2017 VM の完全修飾ドメイン名または IP アドレスを入力します。例: **sql2017vmxxx.centralus.cloudapp.azure.com** |
+    | Authentication | SQL Server |
+    | ログイン | sqladmin |
+    | パスワード | Pa55w.rdPa55w.rd |
 
-### タスク 2：SQL インスタンスをファイル共有に接続する
+### オンプレミスの SQL インスタンスをファイル共有に接続します
 
-**注意：** SQL Server がファイル共有上のドライブ文字に接続できるようにするには、xp_cmdshell を実行しているネットワーク ドライブをマップする必要があります。セキュリティ上の理由から、SQL Server サービス アカウントのコマンド ライン アクセスを制限する必要があります。デフォルトでは、SQL コマンド ラインは無効になっています。
+> [!注]
+> SQL Server がファイル共有にあるドライブ文字に接続できるようにするには、SQL Server Management Studio で `xp_cmdshell` を実行してネットワーク ドライブをマップし、SQL サービス アカウントが共有にアクセスできるようにする必要があります。データ移行アシスタントは、SQL サービス アカウントを使用してデータベースをバックアップします。セキュリティ上の理由から、SQL Server サービス アカウントのコマンド ライン アクセスを制限する必要があります。デフォルトでは、SQL コマンド ラインは無効になっています。
 
-1. Notepad の演習の前の部分で作成した MapNetworkDrive.txt を開きます。
-2.	テキストをコピーする
-3.	SQL Management Studio で、ローカル サーバー (LONDON) に接続したまま新しいクエリを作成する
-4.	MapNetworkDrive からクエリ ウィンドウにテキストを貼り付ける
-5.	次のスクリーンショットを反映するようにクエリを変更し、xp_cmdshell ストアド プロシージャを使用してコマンド行を実行します。
+1. オンプレミスの SQL Server で接続を構成するには、SQL Management Studio の**オブジェクト エクスプローラー**で、**LONDON** サーバーを右クリックし、「**新しいクエリ**」 を選択します。
+1. 次の Transact-SQL コードを入力します。
 
-```sql
-SP_CONFIGURE 'show advanced options', 1
-RECONFIGURE
-SP_CONFIGURE 'xp_cmdshell', 1
-RECONFIGURE
-GO
-EXEC xp_cmdshell 'cmdkey /add:dp050storagexxxx.file.core.windows.net /user:Azure\dp050storagexxxx /pass:Mcty80xn7j'
-EXEC xp_cmdshell 'net use U: \\dp050storagexxxx.file.core.windows.net\backupshare /persistent:Yes'
-EXEC xp_cmdshell 'dir u:'
-```
+    ```sql
+    EXECUTE sp_configure 'show advanced options', 1;
+    RECONFIGURE;
+    EXECUTE sp_configure 'xp_cmdshell', 1;
+    RECONFIGURE;
+    GO
+    EXECUTE xp_cmdshell 'net use U: \\<storageaccountname>.file.core.windows.net\backupshare /persistent:Yes /u:Azure\<storageaccountname> <storageaccountkey>';
+    EXECUTE xp_cmdshell 'dir U:';
+    ```
 
-6.	クエリを実行し、ネットワーク ドライブにアクセス可能であることを検証する
-7.	Labfiles フォルダにクエリを **MapNetworkdrive.sql** として保存
-8.	次のクエリを実行して、新しいクエリ ウィンドウを開始し、xp_cmdshell を無効にします。
+1. クエリ テキストで、 `<storageaccountname>` を前に作成したストレージ アカウントの名前に置き換えます。名前は 2 か所に入力する必要があります。
+1. `<storageaccountkey>` をストレージ アカウント用に書き留めたプライマリ アクセス キーに置き換えます。
+1. クエリを実行し、結果にエラー メッセージがないことを確認します。
 
-```sql
-    SP_CONFIGURE ‘xp_cmdshell’,0
-```
+    > [!注]
+    > SQL コードは、ネットワーク ドライブ U:を Azure のストレージ アカウントにマップします。ただし、これは SQL Service アカウントのコンテキストで行われるため、ファイル エクスプローラーで、または `net use` コマンドを使用したときに U: ドライブは表示されません。
 
-9.	Object Explorer で、Azure VM SQL Server インスタンスを選択し、新しいクエリを作成する
-10.	保存したファイル Mapnetworkdrive.sql を開き、SQLS Server 2017 インスタンスでスクリプトを実行する
-11.	SQL Server 2017 インスタンスで xp_cmdshell を無効にする手順を繰り返します。
+1. Labfiles フォルダにクエリを **MapNetworkDrive.sql**として保存
+1. 次のクエリを実行して、新しいクエリ ウィンドウを開始し、LONDON SQLServer で `xp_cmdshell` を無効にします。
 
+    ```sql
+    EXECUTE sp_configure 'xp_cmdshell', 0;
+    RECONFIGURE;
+    ```
 
-## 演習 4：SQL Server データを使用したデータベース移行の実行 
+1. すべてのクエリ ウィンドウを閉じ、どのファイルも保存しないでください。
 
-この演習では、Azure Portal を使用して、Azure 上に新しい仮想マシンを作成します。
-**予想時間：** 10 分
+### Azure VMSQL インスタンスをファイル共有に接続します。
 
-この演習の主なタスクは、次のとおりです。
+1. Azure VM SQL Server で接続を構成するには、**オブジェクト エクスプローラー**で、Azure の SQL Server を右クリックし、「**接続**」 を選択します。
+1. 「**サーバーに接続**」 ダイアログの 「**パスワード**」 テキストボックスに「**Pa55w.rdPa55w.rd**」と入力し、「**接続**」を選択します。
+1. 「**ファイル**」 メニューで、「**開く/ファイル**」 を選択し、上記で保存した **MapNetworkDrive.sql** ファイルを開きます。
+1. クエリ ウィンドウの下部にあるステータスバーで、Azure VM に接続していることを確認します。
+1. Azure VM で U: ドライブをマップするには、クエリを実行し、結果にエラーメッセージがないことを確認します。
+1. 次のクエリを実行して、新しいクエリ ウィンドウを開始し、`xp_cmdshell` を無効にします。
+
+    ```sql
+    EXECUTE sp_configure 'xp_cmdshell', 0;
+    RECONFIGURE;
+    ```
+
+1. SQL Server Management Studio を閉じます。
+
+## 演習 4: SQL Server Data Migration Assistant を使用したデータベース移行の実行
+
+この演習では、データをオンプレミスの SQL Server から Azure の VM に移行します。
+
+**推定時間:** 約 10 分
+
+この演習の主なタスクは次のとおりです。
 
 1. データベースを Data Migration Assistant で移行する
-2. データベースの正常な移行を検証する
+1. データベースの正常な移行を検証する。
 
-### タスク 1：Data Migration Assistant を使用して SQL データベースを移行する
+### Data Migration Assistant を使用して SQL データベースを移行する
 
-1.	SQL Server 2008 R2 ラボ環境で、 **“Microsoft Data Migration Assistant”** アプリケーションを開く
-2.	 **+** を選択すると、新しいプロジェクトのダイアログが開くので、次の情報を入力します。 
-    1. プロジェクトの種類： **Migration**
-    1. プロジェクト名：**SQL VM への移行**
-    1. ソースサーバーの種類：**SQL Server**
-    1. ターゲット サーバーの種類：**Azure Virtual Machines の SQL Server**
-3.	 **Create** をクリックする
-4.	 **Next** をクリックする
-5.	ソース サーバーの詳細サーバー名ダイアログ ボックスに **Server name of localhost** を入力する
-6.	ターゲット サーバーの詳細 サーバー名ダイアログ ボックスに、完全修飾名を使用して Azure SQL Virtual マシンのサーバー名を入力する
-7.	ターゲット サーバー認証の種類ダイアログ ボックスで **Server name of localhost** を選択する
-8.	ターゲット サーバーの詳細 SQL 認証資格情報で、 **sqladmin** と入力して、**Pa55.w.rd.123456789** をパスワードとして指定します。   
-9.	接続プロパティで、 **Encrypt Connection** プロパティのチェックボックスをオフにします。
-10.	 **Next** をクリックします。
-11.	次のデータベースの選択を解除します。
-    •	AdventureworksDW2008_4M
-    •	Reportserver
-    •	ReportServerTempDB
-12.	共有場所ダイアログ ボックスの種類: U:\
-13.	ログインの選択ウィンドウを確認する
-14.	 **StartMigration** をクリックします。
+1. **LON-DEV-01** 仮想マシンで、**Microsoft Data Migration Assistant** を開き、「**+**」 を選択します。
+1. 「**新規**」 セクションで、次の値を選択します。
 
-**注意：** すべてのデータベースが共有ネットワーク ドライブ (Azure Fileshare) にバックアップされます。
+    | プロパティ | 値 |
+    | --- | --- |
+    | プロジェクト タイプ | 移行 |
+    | プロジェクト名 | Azure VM への移行 |
+    | ソース サーバー名 | SQL Server |
+    | ターゲット サーバー名 | Azure Virtual Machines 上の SQL Server |
 
-15.	移行プロセスを監視します。
-16.	完了後、データ移行アシスタントを閉じる
+1. **「作成」** を選択します。
+1. 「**ソースとターゲットを指定する**」 ページの 「**ソースサーバーの詳細**」 で、次の値を入力します。
 
-### タスク 2：正常な移行の検証
+    | プロパティ | 値 |
+    | --- | --- |
+    | サーバー名 | localhost |
+    | 認証タイプ | Windows 認証 |
+    | 暗号化接続 | いいえ |
+    | 「サーバー証明書を信頼する」 | はい |
 
-1.	SQL Server 2008 R2 ラボ環境で、 **“SQL Management Studio”** を開く
-2.	Object Explorer で **Databases** リストを **SQL Server 2017 instance** に展開します。
-3.	データベースが正常に移行されたことを確認する
-4.	**New Query** を作成する
-5.	次のクエリを入力して実行して、各データベースのデータベース互換性レベルを検証します。
+1. 「**ターゲットサーバーの詳細**」 で、次の値を入力します。
 
-```sql
-SELECT name, compatibility_level FROM sys.databases
-```
+    | プロパティ | 値 |
+    | --- | --- |
+    | サーバー名 | Azure の仮想マシンの IP アドレスまたは DNS 名を入力します |
+    | 認証タイプ | SQL Server の認証 |
+    | ユーザー名 | sqladmin |
+    | パスワード | Pa55w.rdPa55w.rd |
+    | 暗号化接続 | はい |
+    | 「サーバー証明書を信頼する」 | はい |
 
-6.	クエリの結果を確認する
-7.	**AdventureworksLT2008R2** データベースに対するデータベース互換レベルを変更するには、次のクエリを使用します。
+1. **「次へ」** をクリックします。
+1. 「**データベースの追加**」 ページで、**AdventureWorks** と **AdventureWorksLT2008TR2** を除くすべてのデータベースの選択を解除します。
+1. 「**共有場所**」 テキストボックスに「**U:\\**」と入力し、「**次へ**」を選択します。
+1. **ログインの選択**ウィンドウを確認します。移行するログインはありません。**StartMigration** を選択します。
 
-```sql
-ALTER DATABASE AdventureWorksLT2008R2
-SET COMPATIBILITY_LEVEL = 110;
-GO
-```
+    > [!注]
+    > すべてのデータベースは、AzureStorage ファイル共有の共有ネットワーク ドライブにバックアップされます。
 
-8.	AdventureworksLT2008R2 データベースを次のクエリでバックアップします。
-  
-```sql
-BACKUP DATABASE AdventureworksLT2008R2  
-TO DISK = 'U:\AdventureworksLT2008R2'  
-   WITH FORMAT,  
-      MEDIANAME = 'AdventureworksLT2008R2',  
-      NAME = 'Full Backup of AdventureworksLT2008R2;  
-```
+1. 移行プロセスを監視します。
+1. 移行が完了したら、Data Migration Assistant を閉じます。
 
+### 正常な移行の検証
 
-9.	バックアップが正常に完了したら、 **SQL Management Studio** を閉じる
+1. **LON-DEV-01** 仮想マシンで、**SQL Management Studio** を開きます。
+1. 「**サーバーに接続**」 ダイアログの 「**サーバー名**」 リストで、Azure VM の IP アドレスまたは DNS 名を選択します。
+1. 「**パスワード**」 テキスト ボックスに「**Pa55w.rdPa55w.rd**」と入力し、「**接続**」 を接続します。
+1. オブジェクト エクスプローラーで、「**データベース**」 リストを展開します。
+1. **AdventureWorks** データベースが正常に移行されたことを確認します。
+1. 「**ファイル**」 メニューの **「新規/クエリを現在の接続で実行」** を選択します。
+1. 次のクエリを入力して実行して、各データベースのデータベース互換性レベルを検証します。
 
-```shell
-結果: これで、Azure VM 内で実行されている SQL Server 2017 への SQL 2008R2 データベースの正常な移行が完了しました。
-```
+    ```sql
+    SELECT name, compatibility_level FROM sys.databases
+    ```
+
+1. **Adventureworks** データベースに対するデータベース互換レベルを変更するには、次のクエリを使用します。
+
+    ```sql
+    ALTER DATABASE AdventureWorks
+    SET COMPATIBILITY_LEVEL = 110;
+    GO
+    ```
+
+1. Adventureworks データベースを次のクエリでバックアップします。
+
+    ```sql
+    BACKUP DATABASE Adventureworks  
+    TO DISK = 'U:\Adventureworks'  
+       WITH FORMAT,  
+          MEDIANAME = 'Adventureworks',  
+          NAME = 'Full Backup of Adventureworks';  
+    ```
+
+1. バックアップが正常に完了したら、 **SQL Management Studio**を閉じる
+
+> [!重要]
+> このラボのこの終了時に、Azure で実行されている SQL Server VM を削除しないでください。これは、ラボ 4 の Azure データベースへの移行のソースとして使用されます。
+
+結果: これで、Azure VM 内で実行されている SQL Server 2017 への SQL Server データベースの正常な移行が完了しました。

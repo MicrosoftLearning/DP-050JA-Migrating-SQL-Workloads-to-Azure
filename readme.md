@@ -2,9 +2,9 @@
 
 このコースでは、まず、受講者は、成功するデータ モダナイゼイション プロジェクトを支援するために必要な準備手順と、そのプロジェクトのさまざまなステージで支援するために役立つツールについて探索します。その後、SQL workloads を Azure で実行されるさまざまな SQL Services に移行するさまざまな方法を探索します。
 
-各モジュールのラボの目的の概要を次に示します。
+各モジュールの課題の目的を以下に概説します。
 
-## ラボ 1 - データプラットフォームのモダナイゼイションの概要
+## ラボ 1 - データ プラットフォームのモダナイゼイションの導入
 
 受講者は、Data Platform のモダナイゼイション、および、モダナイゼイション プロジェクトを高いレベルで組織が実施する理由とその方法について理解したことを、このモジュールで得た情報を使用して実際に説明します。Azure への移行のコストを決定する方法を実際に説明します。また、作業中の環境に関する情報も収集します。受講者は、特定のシナリオに使用する必要があるデータ プラットフォームのモダナイゼイション戦略を最終的に決定します。
 
@@ -14,13 +14,12 @@
 
 ## ラボ 3 - SQL Workloads を Azure Virtual Machines に移行する
 
-受講者は、SQL Server VM の Azure 上への プロビジョニングを含む、データ移行用の環境を構成します。
-次に、Data Migration Assistant（DMA）を使用して SQL Server 2008 R2 環境からデータベースを転送することにより、Azure Virtual MachinesのSQL Server へのデータ移行を実行します。
+受講者は、SQL Server 仮想マシン（VM）の Azure 上への プロビジョニングを含む、データ移行用の環境を構成します。次に、Data Migration Assistant（DMA）を使用して SQL Server 2008 R2 環境からデータベースを転送することにより、Azure VM 上で実行される SQL Server へのデータ移行を実行します。
 
-## ラボ 4 - SQL Workloads を  SQL Database に移行する
+## ラボ 4 - SQL Workloads を SQL Database に移行する
 
-受講者は、Azure Database Migration Assistant（DMA）を使用して、オンプレミスの SQL Server から Azure SQL Database へのオフライン移行を実行します。これを行う前に、受講者は、移行先の Azure で適切な SQL Server インスタンス オプションを決定します。移行ツールを使用して Azure SQL Database にデータを読み込んで移動することで、移行を確定します。
+受講者は、Azure Database Migration Service（DMS）を使用して、オンプレミスの SQL Server から Azure SQL Database へのオフライン移行を実行します。これを行う前に、受講者は、移行先の Azure で適切な SQL Server インスタンス オプションを決定します。移行ツールを使用して Azure SQL Database にデータを読み込んで移動することで、移行を確定します。
 
 ## ラボ 5 - SQL Workloads を SQL Database Managed Instance に移行する
 
-受講者は、最初に、オンプレミスの SQL Server から  SQL Database Managed Instance への移行に使用する移行プロセスを評価します。次に、Azure Database Migration Service を使用してオンライン移行を実行します。また、データベースにアクセスするアプリケーションのアプリケーション互換性を確認する前に、データを移行してマネージ インスタンスに読み込みます。このラボは、シミュレート環境です。
+このモジュールにはラボがありません。
