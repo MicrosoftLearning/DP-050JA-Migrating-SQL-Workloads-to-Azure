@@ -215,7 +215,7 @@ Azure Cloud Shell は、Azure でホストされ、ブラウザーを介して�
     ALTER DATABASE AdventureworksLT2008R2 SET RECOVERY FULL WITH NO_WAIT
     ```
 
-1. Perform a FULL Backup of the database by executing the following query  
+1. 次のクエリを実行して、データベースのフル バックアップを実行します。  
 
     ```sql
     BACKUP DATABASE AdventureworksLT2008R2 TO DISK = 'd:\awlt2008r2backup.bak'
